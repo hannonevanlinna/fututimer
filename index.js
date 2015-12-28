@@ -26,6 +26,11 @@ app.get('/2', function(request, response) {
   response.send(result);
 });
 
+app.get('/hello', function(request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("Hello World\n");
+});
+
 app.get('/cool', function(request, response) {
   response.send(cool());
 });
