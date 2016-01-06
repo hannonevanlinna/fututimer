@@ -4,6 +4,9 @@ var app = express();
 
   var fs = require('fs');
 var http = require('http');
+
+
+
 var url = require('url') ;
 
 
@@ -11,8 +14,9 @@ var timestart = new Date;
 var hour = timestart.getHours();
 var minute = timestart.getMinutes();
 var milliseconds = timestart.getMilliseconds();
-var timeraika = 10;
+var timeraika = 600;
 var timerrunning = 0;
+var timedifference = timeraika;
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -22,7 +26,9 @@ app.use(express.static(__dirname + '/public'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
+app.get('/', function(req, res) {
+    res.render('pages/index');
+});
 
 
 app.get('/parametri', function(request, response) {
@@ -33,14 +39,20 @@ app.get('/parametri', function(request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
   //response.end("parametri" +JSON.stringify(queryObject));
   timeraika = uusiaika;
+  timestart = new Date;
 response.end("parametri" +uusiaika);
 });
 
+app.get('/status', function(request, response) {	
 
-//alustaa timerin
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("" +timerrunning);
+
+}); 
+//käynnistää timerin
 app.get('/timerstart', function(request, response) {	
   timestart = new Date;
-  timerrunning = 1;
+  timerrunning = 2;
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.end("Count down running" + timeraika);
 
@@ -48,75 +60,59 @@ app.get('/timerstart', function(request, response) {
 
 
 
+//valmistelee timerin
+app.get('/getready', function(request, response) {	
+  timerrunning = 1;
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("Count down waiting to start" + timeraika);
+
+});  
+
+//Pause
+app.get('/pause', function(request, response) {	
+  timerrunning = 1;
+  var timeraikakokonais = timedifference.toFixed();
+  timeraika = timeraikakokonais;
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("Count down waiting to start" + timeraika);
+
+});  
 
 app.get('/time', function(request, response) {
-  if (timerrunning){
+  if (timerrunning == 2){
 	  var timenow = new Date;
-	  var timedifference = (timestart - timenow + 1000*timeraika)/1000;
+	  timedifference = (timestart - timenow + 1000*timeraika)/1000;
 	  if (timedifference>0) {
+	  	var timedifferencekokonais = timedifference.toFixed();
 		  response.writeHead(200, {"Content-Type": "text/plain"});
-	  	  response.end('Time left: ' + timedifference);
+	  	  response.end('' +timedifferencekokonais);
 		}
 		else {
-			timerruning = 0;
+			timerruning = 2;
 			response.writeHead(200, {"Content-Type": "text/plain"});
-  			response.end('timer stopper.' + timeraika);
+  			response.end('' + 0);
 		}
 
 	}
 	else {
+
 	response.writeHead(200, {"Content-Type": "text/plain"});
-  	response.end('timer stopper.' + timeraika);
+  	response.end('' + timeraika);
 
 	}
 });
 
-//app.get('/settimer', function(request, response) {
-//  timestart = new Date;
-//  response.writeHead(200, {"Content-Type": "text/plain"});
-//  response.end("Aika asetettu");
-//});
+//käynnistää timerin
+app.get('/showtime', function(request, response) {	
+  timerrunning = 0;
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("show time");
 
-//app.get('/seconds', function(request, response) {
-//  var timenow = new Date();
-  //var timedifference = (timenow - timestart)/1000;
-   
-  //response.writeHead(200, {"Content-Type": "text/plain"});
-  //response.end('processtime' + timedifference);
-//});
+});  
 
-//app.get('/minutes', function(request, response) {
-  //var timenow = new Date;
-  //var timedifference = timenow.getMinutes() - timestart.getMinutes();
 
-  //response.writeHead(200, {"Content-Type": "text/plain"});
-//  response.end('minute' + timedifference);
-//});
 
-//app.get('/cool', function(request, response) {
- // response.send(cool());
-//});
 
-//app.get('/', function(request, response) {
-//  var result = ''
-  //var times = process.env.TIMES || 50
-  //for (i=0; i < times; i++)
-    //result += cool();
-  //response.send(result);
-//});
-
-//app.get('/20', function(request, response) {
-  //var result = ''
-  //var times = process.env.TIMES || 20
-  //for (i=0; i < 20; i++)
-  // result += cool();
-  //response.send(result);
-//});
-
-//app.get('/hello', function(request, response) {
-//  response.writeHead(200, {"Content-Type": "text/plain"});
-//  response.end("Hello World\n");
-//});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

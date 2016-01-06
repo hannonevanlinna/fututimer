@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<body  onload="startTime()">
+    <a href="http://localhost:5000/parametri?time=500" target="myIframe">500</a>
+    <a href="http://localhost:5000/parametri?time=50" target="myIframe">50</a>
+    <a href="http://localhost:5000/parametri?time=10" target="myIframe">10</a><br>
+    
+    
+    <a href="http://localhost:5000/getready" target="myIframe">Timer mode</a><br>
+    <a href="http://localhost:5000/showtime" target="myIframe">Clock mode</a><br>
+    <a href="http://localhost:5000/timerstart" target="myIframe">Start timer</a><br>
+    <a href="http://localhost:5000/time" target="myIframe">Show timer time</a><br>
+<br><br>
+    
+    <iframe src="http://localhost:5000/time" name = "myIframe"></iframe>
+
+    
+<div id="txt"></div>
+
+<script>
+
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    var timeleft = readTime();
+
+
+
+
+    document.getElementById('txt').innerHTML =
+    h + ":" + m + ":" + s +"Time left:" + timeleft ;
+    var t = setTimeout(startTime, 500);
+}
+
+
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+
+function readTime(){
+
+var oRequest = new XMLHttpRequest();
+var sURL = "http://localhost:5000/time";
+
+oRequest.open("GET",sURL,false);
+oRequest.setRequestHeader("User-Agent",navigator.userAgent);
+oRequest.send(null)
+return oRequest.responseText;
+
+}
+
+
+</script>
+</body>
+</html>
