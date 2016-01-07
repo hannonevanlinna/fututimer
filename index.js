@@ -1,26 +1,19 @@
 var cool = require('cool-ascii-faces');
 var express = require('express');
 var app = express();
-
-  var fs = require('fs');
+var fs = require('fs');
 var http = require('http');
-
-
-
 var url = require('url') ;
-
-
 var timestart = new Date;
 var hour = timestart.getHours();
 var minute = timestart.getMinutes();
 var milliseconds = timestart.getMilliseconds();
 var timeraika = 600;
 var timerrunning = 0;
-var timedifference = timeraika;
+var timedifference = timeraika; 
 
 
 app.set('port', (process.env.PORT || 5000));
-
 app.use(express.static(__dirname + '/public'));
 
 // views is directory for all template files
