@@ -29,7 +29,8 @@ body  {
       or set your own:
 
 
-    <input id="numb" type="number" size="2" >
+        <input id="numb2"  maxlength="4" size="4" >
+
     <button type="button" onclick="openInput()">Set time</button>
   </div>
 
@@ -120,7 +121,7 @@ function openInput() {
     var x, text;
 
     // Get the value of the input field with id="numb"
-    x = document.getElementById("numb").value;
+    x = document.getElementById("numb2").value;
 
     // If x is Not a Number or less than one or greater than 10
     if (isNaN(x) || x < 1 || x > 99) {
