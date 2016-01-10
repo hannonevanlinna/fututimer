@@ -76,17 +76,15 @@ body  { font-size: 100%;
 function startTime() {
 
     var status = getStatus();
+    status = "0";
     
     if (status =="0") {
-
      var today = new Date();
       var h = today.getHours();
       var m = today.getMinutes();
       var s = today.getSeconds();
       m = checkTime(m);
       s = checkTime(s);
-
-      
       document.getElementById('txt').innerHTML = h + ":" + m ;
     }
     else {
