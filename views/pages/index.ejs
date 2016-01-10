@@ -78,6 +78,18 @@ function startTime() {
     var status = getStatus();
     
     if (status =="0") {
+
+     var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+
+      
+      document.getElementById('txt').innerHTML = h + ":" + m ;
+    }
+    else {
       var timeleft = readTime();
       var timeleftM = timeleft/60;
       timeleftM=  Math.floor(timeleftM);
@@ -86,15 +98,6 @@ function startTime() {
 
       timeleftM = checkTime(timeleftM);
       timeleftS = checkTime(timeleftS);
-      document.getElementById('txt').innerHTML = h + ":" + m ;
-    }
-    else {
-      var today = new Date();
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
       document.getElementById('txt').innerHTML =""+ timeleftM +":" + timeleftS ;
     }
 
