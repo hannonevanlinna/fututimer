@@ -84,7 +84,7 @@ function startTime() {
       var s = today.getSeconds();
       m = checkTime(m);
       s = checkTime(s);
-      document.getElementById('txt').innerHTML = h + ":" + m ;
+   //   document.getElementById('txt').innerHTML = h + ":" + m ;
     }
     else {
       var timeleft = readTime();
@@ -95,7 +95,7 @@ function startTime() {
 
       timeleftM = checkTime(timeleftM);
       timeleftS = checkTime(timeleftS);
-      document.getElementById('txt').innerHTML =""+ timeleftM +":" + timeleftS ;
+    //  document.getElementById('txt').innerHTML =""+ timeleftM +":" + timeleftS ;
     }
 
     var t = setTimeout(startTime, 500);  
