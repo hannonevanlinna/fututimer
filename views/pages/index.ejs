@@ -74,8 +74,9 @@ body  { font-size: 100%;
 
 function startTime() {
 
-    var status = getStatus();
-
+    var status, text;
+    status = "" +getStatus();
+  
     if (status == "0") {
      var today = new Date();
       var h = today.getHours();
