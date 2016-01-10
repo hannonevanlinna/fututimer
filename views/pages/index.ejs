@@ -75,39 +75,31 @@ body  { font-size: 100%;
 
 function startTime() {
 
-
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
-    var timeleft = readTime();
     var status = getStatus();
-
-    var timeleftM = timeleft/60;
-    timeleftM=  Math.floor(timeleftM);
     
-    var timeleftS = timeleft - timeleftM*60;
-    timeleftS=  Math.floor(timeleftS);
-
-    timeleftM = checkTime(timeleftM);
-    timeleftS = checkTime(timeleftS);
-
-
     if (status =="0") {
-    document.getElementById('txt').innerHTML =
-    h + ":" + m ;
-    var t = setTimeout(startTime, 500);  
+      var timeleft = readTime();
+      var timeleftM = timeleft/60;
+      timeleftM=  Math.floor(timeleftM);
+      var timeleftS = timeleft - timeleftM*60;
+      timeleftS=  Math.floor(timeleftS);
+
+      timeleftM = checkTime(timeleftM);
+      timeleftS = checkTime(timeleftS);
+      document.getElementById('txt').innerHTML = h + ":" + m ;
     }
     else {
-    document.getElementById('txt').innerHTML =
-    ""+ timeleftM +":" + timeleftS ;
-    var t = setTimeout(startTime, 500);
-
-
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('txt').innerHTML =""+ timeleftM +":" + timeleftS ;
     }
-    
+
+    var t = setTimeout(startTime, 500);  
+
 }
 
 
