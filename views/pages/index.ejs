@@ -76,7 +76,7 @@ body  { font-size: 100%;
 function startTime() {
 
     //var status = getStatus();
-    var status = "0";
+    var status = "2";
 
     if (status =="0") {
      var today = new Date();
@@ -90,9 +90,9 @@ function startTime() {
     else {
       var timeleft = readTime();
       var timeleftM = timeleft/60;
-      timeleftM=  Math.floor(timeleftM);
+      timeleftM = Math.floor(timeleftM);
       var timeleftS = timeleft - timeleftM*60;
-      timeleftS=  Math.floor(timeleftS);
+      timeleftS = Math.floor(timeleftS);
 
       timeleftM = checkTime(timeleftM);
       timeleftS = checkTime(timeleftS);
