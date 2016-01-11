@@ -114,7 +114,7 @@ var sURL = "/time";
 
 oRequest.open("GET",sURL,false);
 oRequest.setRequestHeader("Accept",navigator.userAgent);
-oRequest.send(null)
+oRequest.send(null);
 return oRequest.responseText;
 
 }
@@ -122,11 +122,11 @@ return oRequest.responseText;
 function getStatus(){
 
 var oRequest = new XMLHttpRequest();
-var sURL = "/status";
+var sURL = "/status?"+ (new Date());
 
 oRequest.open("GET",sURL,false);
 oRequest.setRequestHeader("Accept",navigator.userAgent);
-oRequest.send(null)
+oRequest.send(null);
 return oRequest.responseText;
 
 }

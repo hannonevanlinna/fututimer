@@ -36,12 +36,19 @@ app.get('/parametri', function(request, response) {
 response.end("parametri" +uusiaika);
 });
 
+
+app.get("/api/status", function(request, response) {
+	response.writeHead(200, {"Content-Type": "application/json"});
+	response.end(JSON.stringify({"status": timerrunning, "time": timeraika}));
+});
+
 app.get('/status', function(request, response) {	
 
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.end("" +timerrunning);
 
 }); 
+
 //käynnistää timerin
 app.get('/timerstart', function(request, response) {	
   timestart = new Date;
