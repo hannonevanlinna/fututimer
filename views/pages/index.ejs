@@ -110,7 +110,7 @@ function checkTime(i) {
 function readTime(){
 
 var oRequest = new XMLHttpRequest();
-var sURL = "/time";
+var sURL = "/time?"+ (new Date());;
 
 oRequest.open("GET",sURL,false);
 oRequest.setRequestHeader("Accept",navigator.userAgent);
