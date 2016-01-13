@@ -11,6 +11,7 @@ var milliseconds = timestart.getMilliseconds();
 var timeraika = 600;
 var timerrunning = 0;
 var timedifference = timeraika; 
+var changedate = new Date;
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -33,17 +34,40 @@ app.get('/parametri', function(request, response) {
   //response.end("parametri" +JSON.stringify(queryObject));
   timeraika = uusiaika;
   timestart = new Date;
-response.end("parametri" +uusiaika);
+  changedate = new Date;
+  response.end("parametri" +uusiaika);
 });
 
 
 app.get("/api/status", function(request, response) {
+
+	if (timerrunning == 2){
+	  var timenow = new Date;
+	  timedifference = (timestart - timenow + 1000*timeraika)/1000;
+	  if (timedifference>0) {
+	  	var timedifferencekokonais = timedifference.toFixed();
+	  	response.writeHead(200, {"Content-Type": "application/json"});
+		response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": timedifferencekokonais, "changedate": changedate}));
+		}
+		else {
+			timerruning = 2;
+	  		response.writeHead(200, {"Content-Type": "application/json"});
+			response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": "0", "changedate": changedate}));
+
+		}
+
+	}
+	else {
+
 	response.writeHead(200, {"Content-Type": "application/json"});
-	response.end(JSON.stringify({"status": timerrunning, "time": timeraika}));
+	response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": "0", "changedate": changedate}));
+
+	}
+
+	
 });
 
 app.get('/status', function(request, response) {	
-
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.end("" +timerrunning);
 
@@ -52,10 +76,10 @@ app.get('/status', function(request, response) {
 //käynnistää timerin
 app.get('/timerstart', function(request, response) {	
   timestart = new Date;
+  changedate = new Date;
   timerrunning = 2;
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.end("Count down running" + timeraika);
-
 });  
 
 
@@ -63,6 +87,7 @@ app.get('/timerstart', function(request, response) {
 //valmistelee timerin
 app.get('/getready', function(request, response) {	
   timerrunning = 1;
+  changedate = new Date;
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.end("Count down waiting to start" + timeraika);
 
@@ -71,6 +96,7 @@ app.get('/getready', function(request, response) {
 //Pause
 app.get('/pause', function(request, response) {	
   timerrunning = 1;
+  changedate = new Date;
   var timeraikakokonais = timedifference.toFixed();
   timeraika = timeraikakokonais;
   response.writeHead(200, {"Content-Type": "text/plain"});
@@ -105,6 +131,7 @@ app.get('/time', function(request, response) {
 //käynnistää timerin
 app.get('/showtime', function(request, response) {	
   timerrunning = 0;
+  changedate = new Date;
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.end("show time");
 
