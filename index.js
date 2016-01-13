@@ -83,7 +83,6 @@ app.get('/timerstart', function(request, response) {
 });  
 
 
-
 //valmistelee timerin
 app.get('/getready', function(request, response) {	
   timerrunning = 1;
