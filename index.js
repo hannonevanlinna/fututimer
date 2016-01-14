@@ -83,7 +83,7 @@ app.get('/timerstart', function(request, response) {
 });  
 
 
-//valmistelee timerin
+//valmistelee timerin, muuttaa changedaten.
 app.get('/getready', function(request, response) {	
   timerrunning = 1;
   changedate = new Date;

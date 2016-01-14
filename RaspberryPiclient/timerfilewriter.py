@@ -11,9 +11,7 @@ def waitasec():
 
 
 
-# 0 = timer off
-# 1 = timer timer wating for start
-# 2 = timer running 
+
 
  
 #server url

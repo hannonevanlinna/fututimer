@@ -16,17 +16,14 @@ def gettimertime():
 # 2 = timer running
 
 
-#server url
-#serverurlstatus = "http://localhost:5000/status"
-#serverurltime = "http://localhost:5000/time"
-#serverurlstatus = "https://radiant-taiga-9466.herokuapp.com/status"
-#serverurltime = "https://radiant-taiga-9466.herokuapp.com/time"
+
 
 
 # measure process time
 timeriasetus = 5.0/10000
 t0 = time.clock()
 t1 = t0 + timeriasetus
+
 
 
 
