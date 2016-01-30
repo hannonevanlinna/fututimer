@@ -45,8 +45,6 @@ app.get('/settext', function(request, response) {
 
   response.writeHead(200, {"Content-Type": "text/plain"});
   //response.end("parametri" +JSON.stringify(queryObject));
-  timeraika = uusiaika;
-  timestart = new Date;
   changedate = new Date;
   response.end("message" +message);
 });
