@@ -138,6 +138,7 @@ function setText(){
    var tx, text;
     // Get the value of the input field with id="numb"
     tx = document.getElementById("messagefield").value;
+    document.getElementById("messagefield").value='';
     window.open("/settext?message=" +tx, "myIframe");
 }
 
