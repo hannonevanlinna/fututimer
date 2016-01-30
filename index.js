@@ -12,7 +12,7 @@ var timeraika = 600;
 var timerrunning = 0;
 var timedifference = timeraika; 
 var changedate = new Date;
-
+var message = "";
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -41,7 +41,7 @@ app.get('/parametri', function(request, response) {
 app.get('/settext', function(request, response) {
 
   var queryObject = url.parse(request.url,true).query;
-  var message = queryObject.message
+  message = queryObject.message
 
   response.writeHead(200, {"Content-Type": "text/plain"});
   //response.end("parametri" +JSON.stringify(queryObject));
