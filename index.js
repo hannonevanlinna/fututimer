@@ -71,7 +71,7 @@ app.get("/api/status", function(request, response) {
 	else {
 
 	response.writeHead(200, {"Content-Type": "application/json"});
-	response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": "0", "changedate": changedate}));
+	response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": "0", "message": message, "changedate": changedate}));
 
 	}
 
@@ -84,6 +84,13 @@ app.get('/status', function(request, response) {
 
 }); 
 
+app.get('/message', function(request, response) {	
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("" +message);
+
+}); 
+
+
 //käynnistää timerin
 app.get('/timerstart', function(request, response) {	
   timestart = new Date;
@@ -92,6 +99,7 @@ app.get('/timerstart', function(request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.end("Count down running" + timeraika);
 });  
+
 
 
 //valmistelee timerin, muuttaa changedaten.

@@ -32,6 +32,8 @@ body  { font-size: 100%;
 <body onload="startTime()" bgcolor="black" style="color: white;">
   <div style="">
     <div style="background-color: black; font-family:'Segment7Standard';font-style: italic; font-size:20px; font-size: 30vw; color: red; text-align: center;" id="txt"></div>
+    <br>
+    <div style="background-color: black; font-family:'Segment7Standard';font-style: italic; font-size:10px; font-size: 6vw; color: red; text-align: center;" id="txt_message"></div>
 
     <div style="">
       <a href="/timerstart" target="myIframe">Start</a>
@@ -78,7 +80,8 @@ body  { font-size: 100%;
 function startTime() {
 
     var status = getStatus();
-  
+    var textmessage = getMessage();
+
     if (status == "0") {
      var today = new Date();
       var h = today.getHours();
@@ -87,6 +90,9 @@ function startTime() {
       m = checkTime(m);
       s = checkTime(s);
       document.getElementById('txt').innerHTML = h + ":" + m ;
+      document.getElementById('txt_message').innerHTML = textmessage ;
+
+
     }
     else {
       var timeleft = readTime();
@@ -121,6 +127,19 @@ oRequest.send(null);
 return oRequest.responseText;
 
 }
+
+function getMessage(){
+
+var oRequest = new XMLHttpRequest();
+var sURL = "/message?"+ (new Date());
+
+oRequest.open("GET",sURL,false);
+oRequest.setRequestHeader("Accept",navigator.userAgent);
+oRequest.send(null);
+return oRequest.responseText;
+
+}
+
 
 function getStatus(){
 
