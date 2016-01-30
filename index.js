@@ -32,10 +32,23 @@ app.get('/parametri', function(request, response) {
 
   response.writeHead(200, {"Content-Type": "text/plain"});
   //response.end("parametri" +JSON.stringify(queryObject));
+  timerrunning = 1;
+  timeraika = uusiaika;
+  changedate = new Date;
+  response.end("parametri" +uusiaika);
+});
+
+app.get('/settext', function(request, response) {
+
+  var queryObject = url.parse(request.url,true).query;
+  var message = queryObject.message
+
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  //response.end("parametri" +JSON.stringify(queryObject));
   timeraika = uusiaika;
   timestart = new Date;
   changedate = new Date;
-  response.end("parametri" +uusiaika);
+  response.end("message" +message);
 });
 
 
@@ -47,12 +60,12 @@ app.get("/api/status", function(request, response) {
 	  if (timedifference>0) {
 	  	var timedifferencekokonais = timedifference.toFixed();
 	  	response.writeHead(200, {"Content-Type": "application/json"});
-		response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": timedifferencekokonais, "changedate": changedate}));
+		response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": timedifferencekokonais, "message": message, "changedate": changedate}));
 		}
 		else {
 			timerruning = 2;
 	  		response.writeHead(200, {"Content-Type": "application/json"});
-			response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": "0", "changedate": changedate}));
+			response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": "0", "message": message, "changedate": changedate}));
 
 		}
 
