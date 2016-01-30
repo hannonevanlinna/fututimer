@@ -53,7 +53,7 @@ body  { font-size: 100%;
       <button type="button" style="font-size: 100%;" onclick="openInput()">Set time</button>
 
       <input id="messagefield" style="font-size: 100%;" maxlength="140" size="20" >
-      <button type="button" style="font-size: 100%;" onclick="settext()">Set message</button>
+      <button type="button" style="font-size: 100%;" onclick="setText()">Set message</button>
 
 
   </div>
@@ -137,7 +137,7 @@ return oRequest.responseText;
 function setText(){
    var tx, text;
     // Get the value of the input field with id="numb"
-    tx = document.getElementById("settextfield").value;
+    tx = document.getElementById("messagefield").value;
     window.open("/settext?message=" +tx, "myIframe");
 }
 
