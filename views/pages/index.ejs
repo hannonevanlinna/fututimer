@@ -104,6 +104,8 @@ function startTime() {
       timeleftM = checkTime(timeleftM);
       timeleftS = checkTime(timeleftS);
       document.getElementById('txt').innerHTML =""+ timeleftM +":" + timeleftS ;
+      document.getElementById('txt_message').innerHTML = textmessage ;
+
     }
 
     var t = setTimeout(startTime, 500);  
