@@ -11,7 +11,7 @@ import time
 import urllib
 import pickle
 import json
-from predict import predict
+#from predict import predict
 from rgbmatrix import Adafruit_RGBmatrix
 
 # Configurable stuff ---------------------------------------------------------
@@ -49,13 +49,15 @@ r 		= 0
 g		= 255
 b		= 0
 
-#font           = ImageFont.load(os.path.dirname(os.path.realpath(__file__))
-#                   + '/helvR08.pil')
+#fontsmall           = ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeSans.ttf", 10)
+
+fontsmall           = ImageFont.load(os.path.dirname(os.path.realpath(__file__))
+                   + '/helvR08.pil')
 
 font 		= ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeSansBold.ttf", 25)
 
 fontYoffset    = -2  # Scoot up a couple lines so descenders aren't cropped
-
+xw = 0
 # Main application -----------------------------------------------------------
 
 # Drawing takes place in offscreen buffer to prevent flicker
@@ -78,29 +80,46 @@ while True:
 	# Clear background
 	draw.rectangle((0, 0, width, height), fill=(0, 0, 0))
 
+#        try:
+#                        with open("status.txt") as json_file:
+#                                deserialized_data = json.load(json_file)
+ #       except Exception as e:
+  #                              print e.__doc__
+   #                             print e.message
 
-	pklpfile = open("status.txt", "rb")
-	loaded_data = pickle.load(pklpfile)
-	deserialized_data = json.loads(loaded_data)
-	pklpfile.close()
+        try:
+                  pklpfile = open("status.txt", "rb")
+                  loaded_data = pickle.load(pklpfile)
+		  pklpfile.close()	
+	except:
+                  print("ongelma")
+	else: 
+	          deserialized_data = json.loads(loaded_data)
+
 	isrunning = deserialized_data["status"]
 #	timeleft= dict[3]
 
 #	changedate = dict[4]
 		
 	while (isrunning == 2):
+
+
 		try:
-			pklpfile = open("status.txt", "rb")
-			loaded_data = pickle.load(pklpfile)
-			deserialized_data = json.loads(loaded_data)
-			pklpfile.close()
-		except:
-			print("EOF? ongelma")
+                	  pklpfile = open("status.txt", "rb")
+                  	  loaded_data = pickle.load(pklpfile)
+                  	  pklpfile.close()
+        	except:
+                	  print("ongelma")
+        	else:
+                  	  deserialized_data = json.loads(loaded_data)
+
 
 		isrunning = int(deserialized_data["status"])
 		timeleft = deserialized_data["timeleft"]    
 		changedate = deserialized_data["changedate"]   
 		timertime_full = deserialized_data["time"]
+		message = deserialized_data["message"]
+                message = message.encode('utf-8')
 		prevchangedate = changedate
 		changetime = time.clock()
 		timeleft = int(timeleft)
@@ -111,13 +130,14 @@ while True:
 			processtime = time.time()
  		
 			try:
-				pklpfile = open("status.txt", "rb")
-				loaded_data = pickle.load(pklpfile)
-				deserialized_data = json.loads(loaded_data)
-				pklpfile.close()
-			except:
-				print("EOF? ongelma")
-
+     		                pklpfile = open("status.txt", "rb")
+                  		loaded_data = pickle.load(pklpfile)
+                  		pklpfile.close()
+        		except:
+                  		print("ongelma")
+        		else:
+	                	deserialized_data = json.loads(loaded_data)
+	
 			changedate = deserialized_data["changedate"]  
 
 			timeleftnow = duetime - time.time()
@@ -145,13 +165,29 @@ while True:
 			r = 255.0 - (100*timeleftnow/int(timertime_full))*2.55
 			g = int(g)
 			r = int(r)
+		
+
+			textwidth = fontsmall.getsize(message)[0]
+                        if (textwidth > 64):
+                                xw = xw -1
+                        else:
+                                 xw = 0
+                        if (xw < -textwidth):
+                                xw = 64
+			if (textwidth > 0):
+				voffset = -3
+			else:
+				 voffset = 2
+				
+
 			draw.rectangle((0, 0, width, height), fill=(0, 0, 0))
-			draw.text((1, 1), kokominuutit +':' +kokosekunnit, font=font, fill=(r ,g, b))
-        		matrix.SetImage(image.im.id, 0, 0)
+			draw.text((1, voffset), kokominuutit +':' +kokosekunnit, font=font, fill=(r ,g, b))
+        		draw.text((xw, 20), message, font=fontsmall, fill=(0,0,255))
+			matrix.SetImage(image.im.id, 0, 0)
 
 
 			processtime = time.time() - processtime
-			time.sleep(1.0-processtime)
+			time.sleep(0.12 -processtime)
 		
 						
 
@@ -160,19 +196,22 @@ while True:
 
 	while (isrunning == 1):
 			gettimertime()
-		 	waitasec()
+		 	time.sleep(0.12)
 		 	
 			try:
-				pklpfile = open("status.txt", "rb")
-				loaded_data = pickle.load(pklpfile)
-				deserialized_data = json.loads(loaded_data)
-				pklpfile.close()
-			except:
-				print("EOF? ongelma")
-	
+                  		pklpfile = open("status.txt", "rb")
+                  		loaded_data = pickle.load(pklpfile)
+                  		pklpfile.close()
+        		except:
+                  		print("ongelma")
+        		else:
+                  		deserialized_data = json.loads(loaded_data)	
+			
 			isrunning = int(deserialized_data["status"])
 			timeleft = deserialized_data["time"]    
-			changedate = deserialized_data["changedate"]   
+			changedate = deserialized_data["changedate"]
+               		message = deserialized_data["message"]
+                	message = message.encode('utf-8')   
 			timeleft = int(timeleft)
 			minuutit = int(timeleft/60)	
 			sekunnit = timeleft-minuutit*60
@@ -186,23 +225,41 @@ while True:
 				kokosekunnit = '0' + str(sekunnit)
 			else:
 				 kokosekunnit = str(sekunnit)
+			textwidth = fontsmall.getsize(message)[0]
+               		if (textwidth > 64):
+                        	xw = xw -1
+                	else:
+                       		 xw = 0
+                	if (xw < -textwidth):
+                        	xw = 64
+                        if (textwidth > 0):
+                                voffset = -3
+                        else:
+                                 voffset = 2
+
+
 			draw.rectangle((0, 0, width, height), fill=(0, 0, 0))
-                        draw.text((1, 1), kokominuutit +':' +kokosekunnit, font=font, fill=(r ,g, b))
+                        draw.text((1, voffset), kokominuutit +':' +kokosekunnit, font=font, fill=(r ,g, b))
+			draw.text((xw, 20), message, font=fontsmall, fill=(0,0,255))
                         matrix.SetImage(image.im.id, 0, 0)
 
+
 	while (isrunning == 0):
+
 		try:
-			pklpfile = open("status.txt", "rb")
-			loaded_data = pickle.load(pklpfile)
-			deserialized_data = json.loads(loaded_data)
-			pklpfile.close()
-		except:
-			print("EOF? ongelma")
+                  	pklpfile = open("status.txt", "rb")
+                  	loaded_data = pickle.load(pklpfile)
+                	pklpfile.close()
+        	except:
+                  	print("ongelma")
+        	else:
+                  	deserialized_data = json.loads(loaded_data)
 
 		isrunning = int(deserialized_data["status"])
 		timeleft = deserialized_data["timeleft"]    
 		changedate = deserialized_data["changedate"]   
-
+		message = deserialized_data["message"]
+		message = message.encode('utf-8')	
 	 	dt = list(time.localtime())
 	 	hour = dt[3]
 	 	minute = dt[4]
@@ -218,27 +275,31 @@ while True:
                      kokohour = str(hour)
 
 
-
+		textwidth = fontsmall.getsize(message)[0]		
+		if (textwidth > 64):
+			xw = xw -1
+		else:
+			xw = 0
+		if (xw < -textwidth):
+			xw = 64	
+                if (textwidth > 0):
+                        voffset = -3
+                else:
+                        voffset = 2
 
 	 	draw.rectangle((0, 0, width, height), fill=(0, 0, 0))
-                draw.text((1, 1), kokohour +':' +kokominuutit, font=font, fill=(48 ,255, 39))
-                matrix.SetImage(image.im.id, 0, 0)
-		waitasec()
-		
+                draw.text((1, voffset), kokohour +':' +kokominuutit, font=font, fill=(48 ,255, 39))
+		draw.text((xw, 20), message, font=fontsmall, fill=(0,0,255))	               
+			
+
+		matrix.SetImage(image.im.id, 0, 0)
+		time.sleep(0.12)
 
 
 
 
 
 
-
-        draw.text((3, 3), "18:23", font=font, fill=(r ,g, b))
-	r = r +1
-	g = g -1
-	if(r>255):
-		r=0
-	if(g<0):
-		g=255
 
 	# Try to keep timing uniform-ish; rather than sleeping a fixed time,
 	# interval since last frame is calculated, the gap time between this
