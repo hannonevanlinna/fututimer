@@ -66,9 +66,10 @@ app.get("/api/status", function(request, response) {
 			response.end(JSON.stringify({"status": timerrunning, "time": timeraika, "timeleft": "0", "message": message, "changedate": changedate}));
 
 		}
-	if (timedifference < -600){
+	if (timedifference < -6){
 		timerrunning = 0;
 		changedate = new Date;
+		message = "";
 
 
 	}
