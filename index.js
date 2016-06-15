@@ -71,9 +71,7 @@ app.get("/api/status", function(request, response) {
 		changedate = new Date;
 		message = "";
 	}
-  if (timedifference < -30){
-    changedate = new Date;
-  }
+
 
 	}
 	else {
