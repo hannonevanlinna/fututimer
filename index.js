@@ -54,6 +54,11 @@ app.get("/api/status", function(request, response) {
 
 	if (timerrunning == 2){
 	  var timenow = new Date;
+
+    if ((changedate - timenow)/1000 < -60 ){
+      changedate = new Date;
+    }
+
 	  timedifference = (timestart - timenow + 1000*timeraika)/1000;
 	  if (timedifference>0) {
 	  	var timedifferencekokonais = timedifference.toFixed();
